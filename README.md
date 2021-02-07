@@ -4,8 +4,10 @@ This is a random 2D planet generator created in Processing using Java perlin noi
 ## Create Planet
 Call this functions to create a random 2D planet
 - radius: integer to change the planet radius
+- level_1: float to change the first layer of ground altitude (recommended: > 0.5)
+- level_2: float to change the second layer of ground altitude (recommended: > 0.6)
 ```bash
-$ drawPlanet(int radius)
+$ drawPlanet(int radius, float level_1, float level_2)
 ```
 ## Create Moon
 Call this functions to add a moon to the texture
