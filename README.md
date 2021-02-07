@@ -1,8 +1,5 @@
 # Random Planet Generator
-This is a random 2D planet generator created in Processing using Java perlin noise. Moons and background can be added too
-.
-.
-.
+This is a random 2D planet generator created in Processing using Java perlin noise. 
 <img src="Render.jpg" alt="Example Render" width="400" height="400">
 ## Create Planet
 Call this functions to create a random 2D planet
