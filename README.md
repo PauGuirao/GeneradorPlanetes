@@ -3,7 +3,6 @@ This is a random planet generator created in Processing using Java. It allows yo
 <img src="Render.jpg" alt="Example Render" width="400" height="400">
 ## Create Planet
 Call this functions to create a random 2D planet
-### Parameters
 - radius: integer to change the planet radius
 ```bash
 $ drawPlanet(int radius)
