@@ -1,53 +1,50 @@
-
-float theta = 0;
-int rad = 150;
-
-//Colors que random asignats al planeta, es poden canviar per generar un planeta en concret
+//Colors levels to create the planet
 color sea = color(random(255),random(255),random(255));
-color tierra = color(random(255),random(255),random(255));
-color tierra2 = color(random(255),random(255),random(255));
+color ground_1 = color(random(255),random(255),random(255));
+color ground_2 = color(random(255),random(255),random(255));
 color atmosColor = color(int(random(64)) + 128, int(random(64)) + 128, int(random(64)) + 128);
 
 //Posicions de les estrelles del skyline
 float[] Xposes = new float[300];
 float[] Yposes = new float[300];
 
-void setup(){
-  size(1000,1000);
-  background(0,0,0);
-  createStarField();
-  drawStarfield();
-  drawPlanet();
-  drawMoon(true);
-}
-
+//Earth rotation velocity
 float increment = 0;
 int indexImg = 0;
 
+void setup(){
+  size(1000,1000);
+  background(0,0,0);
+  drawStarfield();
+  drawPlanet(150,0.58,0.68);
+  drawMoon(30,100);
+  createTexture("Example","jpg");
+}
 void draw(){
-  background(0);
+  //background(0);
   
   //Dibuix de la imatge
-  drawStarfield();
-  drawPlanet();
-  drawMoon(true);
+  //drawStarfield();
+  //drawPlanet(100);
+  //drawMoon(true);
   
   //Increment amb el cual es mou la terra, es por variar
   increment+=0.1;
   
   //Desactivar en cas de no voler generar imatges
-  indexImg++;
-  save("render_"+indexImg+".jpg");
+  //indexImg++;
+  //save("render_"+indexImg+".jpg");
 }
 
+void createTexture(String name,String type){
+  save(name+"."+type);
+}
 //Crea una lluna, com a parametre li passem un boolea en cas de que no la vulguem mostrar
-void drawMoon(boolean moon){
-  int radMoon = 40;
-  if(moon){
+void drawMoon(int radMoon, int distance){
     int rand = 200;
     for (int i = 0; i < 1000; i++) {
       for (int j = 0; j < 1000; j++) {
-        if (isInsideCircle(j, rad+rand, i, rad+rand, radMoon)) {
+        if (isInsideCircle(j, distance+rand, i, distance+rand, radMoon)) {
               float n = noise(i* 0.05+increment*3,j*0.05+increment*3);
               stroke(100,100,100);
               if(n > 0){
@@ -63,35 +60,35 @@ void drawMoon(boolean moon){
         }
       }
     }
-  }
+  
 }
 
 
 //Genera tot el planet, surpeficie, hombres, nuvols, oclussió
-void drawPlanet(){
-  translate((width/2)-rad,(height/2)-rad);
-  drawSurface();
-  drawAtmos();
-  drawOcclusion();
-  drawPlanetShadow();
-  drawNuves();
+void drawPlanet(int radius, float level_1,float level_2){
+  translate((width/2)-radius,(height/2)-radius);
+  drawSurface(radius,level_1,level_2);
+  drawAtmos(radius);
+  drawOcclusion(radius);
+  drawPlanetShadow(radius);
+  drawNuves(radius);
 }
   
 //Genera la superficie del planeta amb perlin noise, utilitza el la variable global increment per moure la terra, mes gran, mes velocitat
 //Utilitzo el valor entre 0 i 1 del perlin noise per determinar altures i aixi poder pintar els continents o mar
-void drawSurface() {
+void drawSurface(int radius, float level_1, float level_2) {
   for (int i = 0; i < 1000; i++) {
     for (int j = 0; j < 1000; j++) {
-      if (isInsideCircle(j, rad, i, rad, rad)) {
+      if (isInsideCircle(j, radius, i, radius,radius)) {
           float n = noise(i* 0.02+increment,j*0.02+increment);
           if(n > 0){
             stroke(sea);
           }
-          if(n > 0.58){
-            stroke(tierra);
+          if(n > level_1){
+            stroke(ground_1);
           }
-          if(n > 0.68){
-            stroke(tierra2);
+          if(n > level_2){
+            stroke(ground_2);
           }
           point(i,j);
           
@@ -102,10 +99,10 @@ void drawSurface() {
 }
 
 //Dibuixa els nuvols tambe amb perlin noise ara simplement pintat en blanc i amb opacitat reduida
-void drawNuves(){
+void drawNuves(int radius){
   for (int i = 0; i < 1000; i++) {
     for (int j = 0; j < 1000; j++) {
-      if (isInsideCircle(j, rad, i, rad, rad)) {
+      if (isInsideCircle(j, radius, i, radius, radius)) {
           float n = noise(j*0.02+increment,i*.01+increment);
           if(n > 0){
             stroke(255,255,255,0);
@@ -122,10 +119,10 @@ void drawNuves(){
 }
 
 //Dibuixa una ombra al planeta
-void drawPlanetShadow() {
+void drawPlanetShadow(int radius) {
   for (int i = 0; i < 1000; i++) {
     for (int j = 0; j < 1000; j++) {
-      if (!isInsideCircle(j, rad + (rad / 4), i, 3 * rad / 4, (int)(rad * 0.9)) && isInsideCircle(j, rad, i, rad, rad)) {
+      if (!isInsideCircle(j, radius + (radius / 4), i, 3 * radius / 4, (int)(radius * 0.9)) && isInsideCircle(j, radius, i, radius, radius)) {
           stroke(0,0,0,48);
           point(i,j);
       }
@@ -134,10 +131,10 @@ void drawPlanetShadow() {
 }
 
 //Dibuixa la oclussió del planeta per donar un efecte mes realista
-void drawOcclusion(){
+void drawOcclusion(int radius){
   for (int i = 0; i < 1000; i++) {
     for (int j = 0; j < 1000; j++) {
-      if (isInsideCircle(j, rad, i, rad, rad - (1)) && isInsideCircle(j, rad, i, rad, rad)) {
+      if (isInsideCircle(j, radius, i, radius, radius - (1)) && isInsideCircle(j, radius, i, radius, radius)) {
           stroke(0,0,0,96);
           point(i,j); 
         }
@@ -146,10 +143,10 @@ void drawOcclusion(){
 }
 
 //Dibuixa l'atmosfera d'un color random (una mica innecessari pero perque no?)
-void drawAtmos(){
+void drawAtmos(int radius){
   for (int i = 0; i < 1000; i++) {
     for (int j = 0; j < 1000; j++) {
-      if (isInsideCircle(j, rad, i, rad, rad)) {
+      if (isInsideCircle(j, radius, i, radius, radius)) {
           stroke(red(atmosColor), green(atmosColor), blue(atmosColor), 55);
           point(i,j);
        }
@@ -175,6 +172,7 @@ void createStarField(){
 
 //Dibuixa les estrelles a les posicions previament generades a <createStarField>
 void drawStarfield(){
+  createStarField();
   for(int i = 0; i< 300; i++){
     float size = random(0,1.5);
     ellipse(Xposes[i],Yposes[i],2+size,2+size);
