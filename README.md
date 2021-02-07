@@ -3,5 +3,5 @@ This is a random planet generator created in Processing using Java. It allows yo
 <img src="Render.jpg" alt="Example Render" width="400" height="400">
 ## Create Planet
 ```bash
-$ drawPlanet(int radius);
+$ void drawPlanet(int radius)
 ```
