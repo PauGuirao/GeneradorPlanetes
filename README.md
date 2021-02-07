@@ -7,7 +7,7 @@ Call this functions to create a random 2D planet
 ```bash
 $ drawPlanet(int radius)
 ```
-## Add Moon
+## Create Moon
 Call this functions to add a moon to the texture
 - radius:  integer to change the moon radius
 - distance:  integer to change the moon distance from the planet
