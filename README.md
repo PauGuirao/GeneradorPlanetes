@@ -9,7 +9,8 @@ $ drawPlanet(int radius)
 ```
 ## Add Moon
 Call this functions to add a moon to the texture
-- moon: boolean / true -> add mooon / false -> no moon
+- radius:  integer to change the moon radius
+- distance:  integer to change the moon distance from the planet
 ```bash
-$ drawMoon(boolean moon)
+$ drawMoon(int radius, int distance)
 ```
