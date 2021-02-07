@@ -1,4 +1,4 @@
 # Random Planet Generator
 This is a random planet generator created in Processing using Java. It allows you to create 2d space textures with a planet and various moons in it.
-![alt text](Render.jpg)
+<img src="Render.jpg" alt="alt text" width="200" height="200">
 ## Create Planet
